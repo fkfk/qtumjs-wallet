@@ -1,17 +1,15 @@
-# QtumJS Wallet
+# VIPSTARCOINJS Wallet
 
-This is a client-side wallet library that can generate private keys from a mnemonic, or import private keys from other QTUM wallets.
+This is a client-side wallet library that can generate private keys from a mnemonic, or import private keys from other VIPSTARCOIN wallets.
 
-It can sign transactions locally, and submit the raw transaction data to a remote qtum node. The blockchain data is provided by the Insight API (which powers https://explorer.qtum.org/), rather than the raw qtumd RPC calls.
+It can sign transactions locally, and submit the raw transaction data to a remote VIPSTARCOIN node. The blockchain data is provided by the Insight API, rather than the raw VIPSTARCOINd RPC calls.
 
-This library makes it possible to run DApp without the users having to run a full qtumd node.
-
-> This library is extracted from the official [QTUM web wallet](https://github.com/qtumproject/qtum-web-wallet).
+This library makes it possible to run DApp without the users having to run a full VIPSTARCOINd node.
 
 ## Install
 
 ```
-yarn add qtumjs-wallet
+yarn add vipstarcoinjs-wallet
 ```
 
 ## Implementation Notes
@@ -23,7 +21,7 @@ There are some differences from the original web wallet repo.
 * Each wallet instance is instantiated with a network explicitly. This allows simultaneous use of different networks.
 * TypeScript for type hinting.
 * Uses satoshi (1e8) as internal units
-  * Can represent up to ~90 million QTUM accurately.
+  * Can represent up to ~90 million VIPSTARCOIN accurately.
 * Uses [coinselect](https://github.com/bitcoinjs/coinselect) to select utxos.
   * Taking into account the size of a transaction, and multiplies that by fee rate per byte.
   * Uses blackjack algorithm, and fallbacks to simple accumulative.
@@ -49,7 +47,7 @@ There are some differences from the original web wallet repo.
 ## Create Mnemonic+Password Wallet
 
 ```js
-import { networks, generateMnemonic } from "qtumjs-wallet"
+import { networks, generateMnemonic } from "vipstarcoinjs-wallet"
 
 async function main() {
   const network = networks.testnet
@@ -69,9 +67,9 @@ main().catch((err) => console.log(err))
 Example Output:
 
 ```
-mnemonic: hold struggle ready lonely august napkin enforce retire pipe where avoid drip
-public address: qLUHmrFGexxpyHwQphLpE1czZNFE5m1xmV
-private key (WIF): cNQKccYYQyGX9G9Qxq2DJev9jHygbZpb2UG7EvUapbtDx5XhkhYE
+mnemonic: enforce scan turkey forget foam lab inmate edit skate tray diary stem
+public address: VS7vudWLtRf4P9ecDS5DfpZyB8q8gF5R6J
+private key (WIF): Kx5rzxPEXBBHL2KBd1mUGY494fMUmzAdMsNjkPNDeBCMszijcuug
 ```
 
 ## Send Fund
@@ -80,22 +78,22 @@ This example restores a wallet from a private key (in [WIF](https://en.bitcoin.i
 
 The transaction is signed locally, and the transaction submitted to a remote API.
 
-The currency unit used is `satoshi`. To convert qtum to satoshi you should multiply the amount you want with `1e8`.
+The currency unit used is `satoshi`. To convert VIPSTARCOIN to satoshi you should multiply the amount you want with `1e8`.
 
 ```js
-import { networks } from "qtumjs-wallet"
+import { networks } from "vipstarcoinjs-wallet"
 
 async function main() {
   // Use the test network. Or `networks.mainnet`
   const network = networks.testnet
 
-  const wif = "cU4ficvRNvR7jnbtczCWo5s9rB9Tdg1U4LkArVpGU6cKnDq7LFoP"
+  const wif = "Kx5rzxPEXBBHL2KBd1mUGY494fMUmzAdMsNjkPNDeBCMszijcuug"
   const wallet = network.fromWIF(wif)
 
   console.log(wallet.address)
 
-  const toAddr = "qS3ThpDn4HRH9we2hZUdF3F3uR7TTvpZ9v"
-  // Sending 0.1 qtum
+  const toAddr = "VRNgVKgdgKY8kxgaL1pf6vB8e4VgqYa5GU"
+  // Sending 0.1 VIPS
   const sendtx = await wallet.send(toAddr, 1, 0.1 * 1e8)
   console.log("sendtx", sendtx)
 }
@@ -121,15 +119,15 @@ contract Burn {
 }
 ```
 
-The ABI encoding for the `burnbabyburn()` invokation is `e179b912`. We'll burn 0.05 qtum, expressed in unit of satoshi.
+The ABI encoding for the `burnbabyburn()` invokation is `e179b912`. We'll burn 0.05 VIPS, expressed in unit of satoshi.
 
 ```ts
-import { networks } from "qtumjs-wallet"
+import { networks } from "vipstarcoinjs-wallet"
 
 async function main() {
   const network = networks.testnet
 
-  const privateKey = "cU4ficvRNvR7jnbtczCWo5s9rB9Tdg1U4LkArVpGU6cKnDq7LFoP"
+  const privateKey = "Kx5rzxPEXBBHL2KBd1mUGY494fMUmzAdMsNjkPNDeBCMszijcuug"
 
   const wallet = network.fromWIF(privateKey)
 
@@ -138,7 +136,7 @@ async function main() {
   const encodedData = "e179b912" // burnbabyburn()
 
   const tx = await wallet.contractSend(contractAddress, encodedData, {
-    amount: 0.05 * 1e8, // 0.05 qtum in satoshi
+    amount: 0.05 * 1e8, // 0.05 VIPS in satoshi
   })
 
   console.log(tx)
@@ -152,7 +150,7 @@ main().catch((err) => console.log(err))
 Two networks are predefined:
 
 ```js
-import { networks } from "qtumjs-wallet"
+import { networks } from "vipstarcoinjs-wallet"
 
 // Main Network
 networks.mainnet
@@ -169,18 +167,18 @@ Alias for `fromWIF`.
 
 `fromWIF` constructs a wallet from private key (in [WIF](https://en.bitcoin.it/wiki/Wallet_import_format) format).
 
-Suppose you want to import the public address `qg3HYD8c4bAVLeEzA9t3Ken3Y3Mni1HZSS`. Use `qtum-cli` to dump the private key from wallet:
+Suppose you want to import the public address `VS7vudWLtRf4P9ecDS5DfpZyB8q8gF5R6J`. Use `VIPSTARCOIN-cli` to dump the private key from wallet:
 
 ```
-qcli dumpprivkey qg3HYD8c4bAVLeEzA9t3Ken3Y3Mni1HZSS
+VIPSTARCOIN-cli dumpprivkey VS7vudWLtRf4P9ecDS5DfpZyB8q8gF5R6J
 
-cVHzWuEKUxoRKba9ySZFqUKZ9G5W8NkzthRcPaB65amUJs95RM3d
+Kx5rzxPEXBBHL2KBd1mUGY494fMUmzAdMsNjkPNDeBCMszijcuug
 ```
 
 ```js
 const network = networks.testnet
 
-const privateKey = "cVEwiJ5NMTdnkW4ZW2ykUopawtLPXQWtPDmvpTh5jmXYMtg8itAz"
+const privateKey = "Kx5rzxPEXBBHL2KBd1mUGY494fMUmzAdMsNjkPNDeBCMszijcuug"
 
 const wallet = network.fromWIF(privateKey)
 console.log("public address:", wallet.address)
@@ -189,7 +187,7 @@ console.log("public address:", wallet.address)
 Output:
 
 ```
-public address: qWAnfBnRNhZBqtgSdgHjSfS2D5Jawmafra
+public address: VS7vudWLtRf4P9ecDS5DfpZyB8q8gF5R6J
 ```
 
 ## fromMnemonic
@@ -210,8 +208,8 @@ console.log("private key (WIF):", wallet.toWIF())
 Example Output:
 
 ```
-public address: qLUHmrFGexxpyHwQphLpE1czZNFE5m1xmV
-private key (WIF): cNQKccYYQyGX9G9Qxq2DJev9jHygbZpb2UG7EvUapbtDx5XhkhYE
+public address: VDa8YRLs9wo25cy5bigsyk1f69N4a8bxut
+private key (WIF): Kx3L9hYgyuaFypg9aRD5wLR674gGw7itxS7e8W25KVEDhLSG7koz
 ```
 
 # Wallet
@@ -234,39 +232,32 @@ console.log(info)
 Output:
 
 ```
-{ addrStr: 'qbkJZTKQfcout2joWVmnvUrJUDTg93bhdv',
-  balance: 128.47960699,
-  balanceSat: 12847960699,
-  totalReceived: 599.92142295,
-  totalReceivedSat: 59992142295,
-  totalSent: 471.44181596,
-  totalSentSat: 47144181596,
+{ addrStr: 'VDa8YRLs9wo25cy5bigsyk1f69N4a8bxut',
+  balance: 881.77926876,
+  balanceSat: 88177926876,
+  totalReceived: 2041.03887636,
+  totalReceivedSat: 204103887636,
+  totalSent: 1159.2596076,
+  totalSentSat: 115925960760,
   unconfirmedBalance: 0,
   unconfirmedBalanceSat: 0,
   unconfirmedTxApperances: 0,
-  txApperances: 21,
+  txApperances: 14,
   transactions:
-   [ 'd12ff9cfd76836d8eb5a39bc40f1dc5e6e2032bfa132f66cca638a7e76f2b6e7',
-     '44fa64f34361cf5460ca116ea396098eb0d20dd43839375c07d69a282d4e29b6',
-     'ca86c477bc595f08f158eed0d4307ee6e1e674a2c14f808b013b38cb1e929aa0',
-     'fbf41aaca56dd013934471b4630f8ca52a6216cf791701a07f3e5c0ba16902d5',
-     'af8fff4a74ff9217d629c17aa84412e8810888983cbc4f6b764740e68b51e5d0',
-     'e9172194ef9493a2dd8dddd02aa58a1c13dbfb09a7e04cb97558d951e4b93a88',
-     '3e167a2534d5d18b71ba56bbba8bfdb317711b3f2ef30f10d34941ddc9aa4861',
-     'bd15b9d9cf4e94915e246a7d78de14cb0a6acec12624902b45717997ef71854e',
-     '0c99d68c261dd713819c068bd0213bc048bd4928b3d86d71503bb3348d7f42f5',
-     'd5b823bb524862855181d231e716ff86fa301f701fd4c23b68168debe334da2e',
-     '7660e89eb45b536b9c7527edafc0884fc2941c0f050625780d3e100c8aeb28f4',
-     'eddbbac9bb7dae1cf4093d893133eb52c483b13ea66f6354c63302f9127ec1bd',
-     '6f99149d78ad720591b4cca643fe2599a0a07076f8f3e80b5962cba326772e83',
-     '0ef2548cceaaa41b7c0127f6e943d103f2fcc236d05e59593e05381f7a8474a0',
-     '851753842d80e8dea92de643e0f3784cf7cbdbb02ae879593cbeac2c78560bac',
-     '729c839d63f7426a1f4ada7eb5a35b556556665a4b42e102694674551752bb03',
-     'ee50d8422dce064d40eb021f4829f5b871e8d2927d93ea136dc0df01b1a72e08',
-     'caf8b48b9d38c3a27de3d24c5a738f63ec37619d419cfcd061bc991d8369bda3',
-     '3b59444033d61457fe229a866dc9cb4a60a4b070ea3a73cacba27516fd30cee8',
-     '5e9ca1c946deaf5458d2b6236145b225eee61ec6991b7df8ee96573b53d82584',
-     'cfbadf76884ca661816f25487f6493826579afe257517ebd7d1fc2b0020eb289' ] }
+   [ '6dcfed9716f162b61bd60bf9a1a0b67226dbbdb20678d2a28fe3d30ba383f96e',
+     '20c6afe3312ca99e17b40e841bdec64ee4cf1393cfd43df6bb75787ef6ac3720',
+     '8e4e76d11d1214ee54d651b2ea5f84db4e71702b57df7bd3af4829710be565fa',
+     '408ad3cde1975e387f2740d388cdd668b2e862ef472bf4ef6bfc4c8cf055e946',
+     '66862bcba133c9313eb1de407037afbbc3ef572929b66e2025d60408a19f4e34',
+     'cdb02d5ca36c52c767b58c470b72a59c3565644cc2e3715f85ded2df15f6cc50',
+     '261520a53619b0ea2fed4e94942cb404c12540d0026b2b2a086f1d92df0107d1',
+     'a1e1664afc5566f302fcd569ff82d2fde29e0062ac0b18dc3ee0c00ff38f5296',
+     '48d72bc841062491553bf4fc691e7da38f279478bb2206da2ee26cf703a923eb',
+     'cb44aad24f6830fbbf117824ec2aa62f841880f5408bd8afbc8bbab33fa55f11',
+     '19518f35bb14cf7f783dffe4714a6e0025e5b2e50ce9d9bb40006bb880cea0b5',
+     '4acb02d22856f5ce8a562dfef22b0a464f69a8b9e306a25ef742833e928dd31a',
+     '1152960117d4f7ab9813b6be3f399bbba388d957c01e5c392dbf5d3579131aa8',
+     'e5745de218d9625e8374e15edcfe1af5c077d01c163951eb26439306313b6628' ] }
 ```
 
 ## async wallet.send
@@ -294,8 +285,8 @@ public async send(
 Example:
 
 ```ts
-const toAddress = "qZaTYNEimGLuqnBDpP3KvBKsFs3DbCuwnr"
-const amount = 0.15 * 1e8 // 0.15 QTUM
+const toAddress = "VRNgVKgdgKY8kxgaL1pf6vB8e4VgqYa5GU"
+const amount = 0.15 * 1e8 // 0.15 VIPS
 
 const tx = await wallet.send(toAddress, amount)
 console.log(tx)
@@ -323,7 +314,7 @@ Setting tx fee rate manually:
 
 ```ts
 const tx = await wallet.send(toAddress, amount, {
-  // rate is 400 satoshi per byte, or  ~0.004 qtum/KB, as is typical.
+  // rate is 400 satoshi per byte, or  ~0.004 VIPS/KB, as is typical.
   feeRate: 400,
 })
 ```
@@ -352,7 +343,7 @@ public async generateTx(
 Example:
 
 ```ts
-const toAddress = "qZaTYNEimGLuqnBDpP3KvBKsFs3DbCuwnr"
+const toAddress = "VRNgVKgdgKY8kxgaL1pf6vB8e4VgqYa5GU"
 const amount = 0.15 * 1e8
 
 const rawtx = await wallet.generateTx(toAddress, amount)
@@ -362,13 +353,13 @@ console.log(rawtx)
 Example output, the raw transaction as hexadecimal string:
 
 ```
-0100000001a09a921ecb383b018b804fc1a274e6e1e67e30d4d0ee58f1085f59bc77c486ca010000006a47304402202fa6106aca6c682ab89b02ad62614462d1ec5e95cb8b4810ce793ad52a4002590220531cf380368cb8f92c7dd03ee375423073a14e5b7da6f48127c63cab17fbf2d7012103c12c73abaccf35b40454e7eb0c4b5760ce7a720d0cd2c9fb7f5423168aaeea03ffffffff02c0e1e400000000001976a914afb616c886f0efd9a9a486ccc07a09ab8d7a4bb288ac49b6ffe0010000001976a914c78300c58ab7c73e1767e3d550464d591ab0a12888ac00000000
+01000000016ef983a30bd3e38fa2d27806b2bddb2672b6a0a1f90bd61bb662f11697edcf6d010000006b483045022100bd144e7e2038fb5894cfa38f479399f5159151b9a9b8ee1b0ed04bcdd6ae517f02201ead32040ed4a4f5ab9fddd53c61ba3e209ae36ea0aecb52814627e931f09f0301210326ede40223dec4e07135859f55dd287f5f6eb2fb03ac87e9cc45e67bac7aacc7ffffffff02c0e1e400000000001976a914a168fd73adc40e18f4647b6408f599adba593d2188ac99524328120000001976a9148f2c219e6e626e0132a08eae64ea8b3b8960f1d288ac00000000
 ```
 
-You can decode the raw transaction using `qtum-cli`:
+You can decode the raw transaction using `VIPSTARCOIN-cli`:
 
 ```
-qtum-cli decoderawtransaction 0100000001a09a921ecb38...
+VIPSTARCOIN-cli decoderawtransaction 01000000016ef983a30bd3...
 
 {
   // ...
@@ -377,25 +368,25 @@ qtum-cli decoderawtransaction 0100000001a09a921ecb38...
       "value": 0.15000000,
       "n": 0,
       "scriptPubKey": {
-        "asm": "OP_DUP OP_HASH160 afb616c886f0efd9a9a486ccc07a09ab8d7a4bb2 OP_EQUALVERIFY OP_CHECKSIG",
-        "hex": "76a914afb616c886f0efd9a9a486ccc07a09ab8d7a4bb288ac",
+        "asm": "OP_DUP OP_HASH160 a168fd73adc40e18f4647b6408f599adba593d21 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a914a168fd73adc40e18f4647b6408f599adba593d2188ac",
         "reqSigs": 1,
         "type": "pubkeyhash",
         "addresses": [
-          "qZaTYNEimGLuqnBDpP3KvBKsFs3DbCuwnr"
+          "VRNgVKgdgKY8kxgaL1pf6vB8e4VgqYa5GU"
         ]
       }
     },
     {
-      "value": 80.69822025,
+      "value": 779.84912025,
       "n": 1,
       "scriptPubKey": {
-        "asm": "OP_DUP OP_HASH160 c78300c58ab7c73e1767e3d550464d591ab0a128 OP_EQUALVERIFY OP_CHECKSIG",
-        "hex": "76a914c78300c58ab7c73e1767e3d550464d591ab0a12888ac",
+        "asm": "OP_DUP OP_HASH160 8f2c219e6e626e0132a08eae64ea8b3b8960f1d2 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a9148f2c219e6e626e0132a08eae64ea8b3b8960f1d288ac",
         "reqSigs": 1,
         "type": "pubkeyhash",
         "addresses": [
-          "qbkJZTKQfcout2joWVmnvUrJUDTg93bhdv"
+          "VPiFRLCUcNA9V5rAKjwqchqRzvn3s69RVv"
         ]
       }
     }
@@ -493,7 +484,7 @@ Example output:
 Decode the raw transaction:
 
 ```
-qtum-cli decoderawtransaction 0100000001e7b6f2767e8a6...
+VIPSTARCOIN-cli decoderawtransaction 0100000001e7b6f2767e8a6...
 ```
 
 Decoded Raw TX:
@@ -512,15 +503,15 @@ Decoded Raw TX:
       }
     },
     {
-      "value": 80.58700424,
+      "value": 779.88895212,
       "n": 1,
       "scriptPubKey": {
-        "asm": "OP_DUP OP_HASH160 c78300c58ab7c73e1767e3d550464d591ab0a128 OP_EQUALVERIFY OP_CHECKSIG",
-        "hex": "76a914c78300c58ab7c73e1767e3d550464d591ab0a12888ac",
+        "asm": "OP_DUP OP_HASH160 8f2c219e6e626e0132a08eae64ea8b3b8960f1d2 OP_EQUALVERIFY OP_CHECKSIG",
+        "hex": "76a9148f2c219e6e626e0132a08eae64ea8b3b8960f1d288ac",
         "reqSigs": 1,
         "type": "pubkeyhash",
         "addresses": [
-          "qbkJZTKQfcout2joWVmnvUrJUDTg93bhdv"
+          "VPiFRLCUcNA9V5rAKjwqchqRzvn3s69RVv"
         ]
       }
     }

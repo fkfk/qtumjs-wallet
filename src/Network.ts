@@ -22,28 +22,28 @@ export interface INetworkInfo {
 }
 
 export enum NetworkNames {
-  MAINNET = "qtum",
-  TESTNET = "qtum_testnet",
+  MAINNET = "vipstarcoin",
+  TESTNET = "vipstarcoin_testnet",
 }
 
 export const networksInfo: { [key: string]: INetworkInfo } = {
   [NetworkNames.MAINNET]: {
     name: NetworkNames.MAINNET,
-    messagePrefix: "\u0015Qtum Signed Message:\n",
+    messagePrefix: '\x18VIPSTARCOIN Signed Message:\n',
     bech32: "bc",
-    bip32: { public: 76067358, private: 76066276 },
-    pubKeyHash: 58,
-    scriptHash: 50,
-    wif: 128,
+    bip32: { public: 0x0488b21e, private: 0x0488ade4 },
+    pubKeyHash: 0x46,
+    scriptHash: 0x32,
+    wif: 0x80,
   },
   [NetworkNames.TESTNET]: {
     name: NetworkNames.TESTNET,
-    messagePrefix: "\u0015Qtum Signed Message:\n",
+    messagePrefix: '\x18VIPSTARCOIN Signed Message:\n',
     bech32: "tb",
-    bip32: { public: 70617039, private: 70615956 },
-    pubKeyHash: 120,
-    scriptHash: 110,
-    wif: 239,
+    bip32: { public: 0x043587cf, private: 0x04358394 },
+    pubKeyHash: 0x64,
+    scriptHash: 0x6e,
+    wif: 0xe4,
   },
 }
 
