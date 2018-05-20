@@ -53,6 +53,30 @@ export class Network {
 
   /**
    * Restore a HD-wallet address from mnemonic & password
+   * with HD-wallet path
+   *
+   * @param mnemonic
+   * @param password
+   * @param path
+   *
+   */
+  public fromMnemonicWithPath(
+    mnemonic: string,
+    password?: string,
+    path?: string,
+  ): Wallet {
+    // if (bip39.validateMnemonic(mnemonic) == false) return false
+    if (path === undefined) path = "m/88'/0'/0'"
+
+    const seedHex = bip39.mnemonicToSeedHex(mnemonic, password)
+    const hdNode = HDNode.fromSeedHex(seedHex, this.info)
+    const account = hdNode.derivePath(path)
+    const keyPair = account.keyPair
+    return new Wallet(keyPair, this.info)
+  }
+
+  /**
+   * Restore a HD-wallet address from mnemonic & password
    *
    * @param mnemonic
    * @param password
@@ -62,12 +86,7 @@ export class Network {
     mnemonic: string,
     password?: string,
   ): Wallet {
-    // if (bip39.validateMnemonic(mnemonic) == false) return false
-    const seedHex = bip39.mnemonicToSeedHex(mnemonic, password)
-    const hdNode = HDNode.fromSeedHex(seedHex, this.info)
-    const account = hdNode.deriveHardened(88).deriveHardened(0).deriveHardened(0)
-    const keyPair = account.keyPair
-    return new Wallet(keyPair, this.info)
+    return this.fromMnemonicWithPath(mnemonic, password, "m/88'/0'/0'")
   }
 
   /**
@@ -92,6 +111,38 @@ export class Network {
       wallets.push(wallet)
     }
     return wallets
+  }
+
+  /**
+   * Restore a HD-wallet address from BIP32 Extended Private key
+   * with HD-wallet path
+   *
+   * @param privkey
+   * @param path
+   *
+   */
+  public fromBase58WithPath(
+    privkey: string,
+    path?: string,
+  ): Wallet {
+    if (path === undefined) path = "m/88'/0'/0'"
+
+    const hdNode = HDNode.fromBase58(privkey, this.info)
+    const account = hdNode.derivePath(path)
+    const keyPair = account.keyPair
+    return new Wallet(keyPair, this.info)
+  }
+
+  /**
+   * Restore a HD-wallet address from BIP32 Extended Private key
+   *
+   * @param privkey
+   *
+   */
+  public fromBase58(
+    privkey: string,
+  ): Wallet {
+    return this.fromBase58WithPath(privkey)
   }
 
   /**
